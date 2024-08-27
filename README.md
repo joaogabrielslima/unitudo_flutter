@@ -1,16 +1,10 @@
-# projeto_unitudo_flutter
+# UniTudo - Flutter
+Implementação do APP UniTudo para a Enterprise Challenge 2024 em Flutter
 
-APP UniTudo em Flutter
+## Descrição
+Aplicativo desenvolvido para a Enterprise Challenge 2024 da FIAP.
+Possibilita que estudantes organizem, em um só aplicativo, toda sua vida universitária.
 
-## Getting Started
+## Índice
+- [Autores]: João Gabriel Lima, Laura Lima e Thaynara Diniz
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
