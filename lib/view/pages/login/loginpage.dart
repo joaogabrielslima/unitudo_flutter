@@ -2,7 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:projeto_unitudo_flutter/view/pages/cadastropage.dart';
 import 'package:projeto_unitudo_flutter/view/pages/resetsenha.dart';
 import 'package:projeto_unitudo_flutter/view/pages/feed.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
+Future<void> loginUser(BuildContext context, String email, String password) async {
+  final url = Uri.parse('http://127.0.0.1:8000/api/login/'); 
+
+  final response = await http.post(
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode({
+      'email': email,
+      'password': password,
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    final responseData = jsonDecode(response.body);
+    print('Login efetuado com sucesso! User ID: ${responseData['user_id']}');
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => FeedPage()));
+  } else if (response.statusCode == 401) {
+    print('Credenciais inválidas!');
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Login failed. Please try again.')),
+    );
+  } else {
+    print('Algo deu errado. Tente novamente.');
+  }
+}
 
 class Loginpage extends StatefulWidget {
   const Loginpage({super.key});
@@ -12,6 +41,16 @@ class Loginpage extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Loginpage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  void _submitLogin() {
+    final email = _emailController.text;
+    final password = _passwordController.text;
+
+    loginUser(context, email, password);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,6 +72,7 @@ class _LoginpageState extends State<Loginpage> {
               height: 40,
             ),
             TextFormField(
+              controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
                 labelText: "E-mail",
@@ -49,6 +89,7 @@ class _LoginpageState extends State<Loginpage> {
               height: 10,
             ),
             TextFormField(
+              controller: _passwordController,
               keyboardType: TextInputType.text,
               obscureText: true,
               decoration: const InputDecoration(
@@ -101,9 +142,10 @@ class _LoginpageState extends State<Loginpage> {
               ),
               child: SizedBox.expand(
                 child: TextButton(
-                  onPressed: () => {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const FeedPage())),
-                  },
+                  // onPressed: () => {
+                  //  Navigator.push(context, MaterialPageRoute(builder: (context) => const FeedPage())),
+                  //},
+                  onPressed: () => _submitLogin(),
                   child: const Text(
                     "Entrar",
                     style: TextStyle(

@@ -1,4 +1,31 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+
+Future<void> registerUser(String name, String password, String email) async {
+  final url = Uri.parse('http://127.0.0.1:8000/api/register/');
+
+  final response = await http.post(
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: jsonEncode({
+      'name': name,
+      'password': password,
+      'email': email,
+    }),
+  );
+
+  if (response.statusCode == 201) {
+    print('User registered successfully!');
+  } else if (response.statusCode == 400) {
+    print('Email ja cadastrado');
+  } else {
+    print('Something went wrong');
+  }
+}
 
 class Cadastropage extends StatefulWidget {
   const Cadastropage({super.key});
@@ -8,6 +35,17 @@ class Cadastropage extends StatefulWidget {
 }
 
 class _CadastropageState extends State<Cadastropage> {
+  final _nameController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _emailController = TextEditingController();
+
+  void _submitRegistration() {
+    final name = _nameController.text;
+    final password = _passwordController.text;
+    final email = _emailController.text;
+
+    registerUser(name, password, email);}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,7 +102,7 @@ class _CadastropageState extends State<Cadastropage> {
             ),
 
             TextFormField(
-              // autofocus: true,
+              controller: _nameController,
               keyboardType: TextInputType.text,
               decoration: const InputDecoration(
                 labelText: "Nome",
@@ -83,6 +121,7 @@ class _CadastropageState extends State<Cadastropage> {
             ),
 
             TextFormField(
+              controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
                 labelText: "E-mail",
@@ -117,26 +156,8 @@ class _CadastropageState extends State<Cadastropage> {
             const SizedBox(
               height: 10,
             ),
-
             TextFormField(
-              keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(
-                labelText: "Telefone",
-                labelStyle: TextStyle(
-                  color: Colors.black38,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                ),
-              ),
-              style: const TextStyle(
-                fontSize: 20,
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-
-            TextFormField(
+              controller: _passwordController,
               keyboardType: TextInputType.text,
               obscureText: true,
               decoration: const InputDecoration(
@@ -191,6 +212,7 @@ class _CadastropageState extends State<Cadastropage> {
               ),
               child: SizedBox.expand(
                 child: TextButton(
+                  onPressed: _submitRegistration,
                   child: const Text(
                     "Cadastrar",
                     style: TextStyle(
@@ -200,7 +222,6 @@ class _CadastropageState extends State<Cadastropage> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  onPressed: () => {},
                 ),
               ),
             ),
