@@ -1,0 +1,1 @@
+ C:\\Users\\joaog\\OneDrive\\Documentos\\UniTudo_Final\\UniTudo_Flutter_FrontEnd\\.dart_tool\\flutter_build\\c6c48e4a16ae9152b762b477ba9ce613\\native_assets.yaml: 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projeto_unitudo_flutter/view/pages/moradia.dart';
 
 class FeedPage extends StatefulWidget {
   const FeedPage({super.key});
@@ -11,6 +12,7 @@ class _FeedPageState extends State<FeedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 24, 82, 75),
       body: Column(
         children: [
           Container(
@@ -56,7 +58,7 @@ class _FeedPageState extends State<FeedPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           ElevatedButton.icon(
-                            onPressed: () {},
+                            onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => const HousingPage()));},
                             label: const Icon(
                               Icons.house_outlined,
                               color: Color.fromARGB(255, 21, 100, 63),
@@ -140,7 +142,7 @@ class _FeedPageState extends State<FeedPage> {
                   },
                 ),
               ),
-                   Container(
+            Container(
             height: MediaQuery.of(context).size.height *
                 0.10, // Cerca de 10% da altura da página
             color: const Color.fromARGB(255, 22, 127, 108), // Cor de fundo do rodapé
